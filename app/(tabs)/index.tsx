@@ -5,95 +5,161 @@ import {
   FlatList,
   GestureHandlerRootView,
   Pressable,
+  TextInput,
 } from "react-native-gesture-handler";
-import { Quicksand_600SemiBold, useFonts } from "@expo-google-fonts/quicksand";
-import { useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
 
 export default function HomeScreen() {
-  let [fontsLoaded, error] = useFonts({
-    Quicksand_600SemiBold,
-  });
-
-  useEffect(() => {
-    if (fontsLoaded || error) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, error]);
   const DATA = [
     {
       title: "Main dishes",
+      pic: require("@/assets/images/placeholder.jpg"),
       data: [
+        {
+          title: "Salads",
+          data: [
+            {
+              title: "Classic Caesar Salad",
+              id: "ceaserSalad",
+              subNote: "Parmesan Shavings and Garlic Croutons",
+              pic: require("@/assets/images/csalad.jpg"),
+            },
+            {
+              title: "Caprese Salad ",
+              id: "capreseSalad ",
+              subNote:
+                "Sliced Roma Tomatoes, Buffalo Mozzarella, Balsamic Dressing and Basil (v)",
+              pic: require("@/assets/images/capresesalad.jpg"),
+            },
+          ],
+        },
+        {
+          title: "Soups",
+          data: [
+            {
+              title: "Tomato Soup with Basil Cream (v)",
+              id: "tomatoSoup",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+          ],
+        },
+        {
+          title: "Cold Sandwiches",
+
+          data: [
+            {
+              title: "Egg Mayonnaise and Cress (v)",
+              id: "eggMayoCress",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+            {
+              title: "Smoked Salmon* and Cucumber in a Poppy Seed Bage",
+              id: "smokedSalmonCucumber",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+          ],
+        },
+
         {
           title: "Pizza",
           id: "pizza",
-          pic: require("@/assets/images/placeholder.png"),
+          pic: require("@/assets/images/placeholder.jpg"),
+          data: [
+            {
+              title: "Burger",
+              id: "burger",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+            {
+              title: "Risotto",
+              id: "risotto",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+            {
+              title: "Makarna",
+              id: "makarna",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+            {
+              title: "Curry",
+              id: "curry",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+          ],
         },
         {
           title: "Burger",
           id: "burger",
-          pic: require("@/assets/images/placeholder.png"),
+          pic: require("@/assets/images/placeholder.jpg"),
+          data: [
+            {
+              title: "Burger",
+              id: "burger",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+            {
+              title: "Risotto",
+              id: "risotto",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+          ],
         },
         {
           title: "Risotto",
           id: "risotto",
-          pic: require("@/assets/images/placeholder.png"),
-        },
-        {
-          title: "Wraps",
-          id: "wraps",
-          pic: require("@/assets/images/placeholder.png"),
+          pic: require("@/assets/images/placeholder.jpg"),
+          data: [
+            {
+              title: "Burger",
+              id: "burger",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+            {
+              title: "Risotto",
+              id: "risotto",
+              pic: require("@/assets/images/placeholder.jpg"),
+            },
+          ],
         },
       ],
     },
-    // {
-    //   title: "Sides",
-    //   data: [
-    //     { title: "French Fries", id: "French Fries" },
-    //     { title: "Onion Rings", id: "Onion Rings" },
-    //     { title: "Fried Shrimps", id: "Fried Shrimps" },
-    //   ],
-    // },
-    // {
-    //   title: "Drinks",
-    //   data: [
-    //     { title: "Water", id: "Water" },
-    //     { title: "Coke", id: "Coke" },
-    //     { title: "Beer", id: "Beer" },
-    //   ],
-    // },
-    // {
-    //   title: "Desserts",
-    //   data: ["Cheese Cake", "Ice Cream"],
-    // },
   ];
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <GestureHandlerRootView>
         <View style={styles.profileNav}>
-          <View>
-            <Text
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+            >
+              <Text>loc_icon</Text>
+              <Text>User_Location</Text>
+            </View>
+            <View
               style={{
-                fontFamily: "Quicksand_600SemiBold",
-                fontWeight: "bold",
-                fontSize: 20,
+                flexDirection: "row",
               }}
             >
-              SomeText
-            </Text>
+              <Pressable>
+                <Text>Fav</Text>
+              </Pressable>
+              <Pressable>
+                <Text>Bas</Text>
+              </Pressable>
+            </View>
           </View>
           <View>
-            <Text
-              style={{
-                fontFamily: "Poppins",
-                fontWeight: "bold",
-                fontSize: 20,
-              }}
-            >
-              SomeText
-            </Text>
+            <TextInput
+              multiline={false}
+              style={styles.homeScreenTextInput}
+              placeholderTextColor="#999"
+              placeholder="Search for a dish"
+            />
           </View>
-          <View></View>
         </View>
         <View style={styles.bottomModal}>
           <SectionList
@@ -104,22 +170,35 @@ export default function HomeScreen() {
             //     <Text style={styles.title}>{item}</Text>
             //   </View>
             // )}
-            renderItem={() => <></>}
-            renderSectionHeader={({ section }) => (
-              <View style={{ margin: 10 }}>
-                <Text style={styles.itemHearders}>{section.title}</Text>
+            renderItem={({ item }) => (
+              <>
+                <Text style={styles.itemSubHeaders}>{item.title}</Text>
                 <FlatList
                   horizontal
-                  data={section.data}
-                  renderItem={({ item }) => (
-                    <View>
-                      <Text>{item.title}</Text>
-                      <Pressable style={styles.homeScreenPressables}>
-                        <Image source={item.pic} style={styles.images} />
-                      </Pressable>
-                    </View>
-                  )}
+                  showsHorizontalScrollIndicator={false}
+                  data={item.data}
+                  renderItem={({ item }) => {
+                    return (
+                      <View style={styles.item}>
+                        <Text
+                          numberOfLines={1}
+                          ellipsizeMode="tail"
+                          style={styles.dietaryPreview}
+                        >
+                          {item.title}
+                        </Text>
+                        <Pressable style={styles.homeScreenPressables}>
+                          <Image source={item.pic} style={styles.images} />
+                        </Pressable>
+                      </View>
+                    );
+                  }}
                 />
+              </>
+            )}
+            renderSectionHeader={({ section }) => (
+              <View style={{ marginVertical: 10 }}>
+                <Text style={styles.itemHeaders}>{section.title}</Text>
               </View>
             )}
           />
@@ -136,22 +215,37 @@ const styles = StyleSheet.create({
   },
   profileNav: {
     height: "20%",
+    padding: 15,
+    justifyContent: "space-evenly",
   },
   bottomModal: {
     flex: 1,
-    paddingTop: 10,
+    padding: 10,
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     elevation: 7,
   },
-  itemHearders: {
+  item: {
+    marginBottom: 12,
+  },
+  itemHeaders: {
     fontWeight: "bold",
     fontSize: 30,
   },
+  itemSubHeaders: {
+    fontSize: 24,
+    fontWeight: "bold",
+
+    // whiteSpace: "nowrap",
+  },
+  dietaryPreview: { width: 170, fontSize: 16 },
   homeScreenPressables: {
-    width: 120,
-    height: 120,
+    width: 170,
+    height: 170,
+    borderColor: "#aaa",
+    borderWidth: 2,
+    overflow: "hidden",
     borderRadius: 10,
     backgroundColor: "#4e4e4e30",
     marginRight: 10,
@@ -161,5 +255,11 @@ const styles = StyleSheet.create({
   images: {
     flex: 1,
     resizeMode: "contain",
+  },
+  homeScreenTextInput: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 5,
+    fontSize: 17,
   },
 });
