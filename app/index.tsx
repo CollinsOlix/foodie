@@ -16,6 +16,7 @@ import {
 } from "react-native-gesture-handler";
 import { EvilIcons, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
+import FlatlistItem from "./components/FlatlistItem";
 
 export default function HomeScreen() {
   const DATA = [
@@ -31,6 +32,7 @@ export default function HomeScreen() {
               id: "ceaserSalad",
               subNote: "Parmesan Shavings and Garlic Croutons",
               pic: require("@/assets/images/csalad.jpg"),
+              time: "<20",
             },
             {
               title: "Caprese Salad ",
@@ -38,6 +40,7 @@ export default function HomeScreen() {
               subNote:
                 "Sliced Roma Tomatoes, Buffalo Mozzarella, Balsamic Dressing and Basil (v)",
               pic: require("@/assets/images/capresesalad.jpg"),
+              time: "<20",
             },
           ],
         },
@@ -157,84 +160,7 @@ export default function HomeScreen() {
                   showsHorizontalScrollIndicator={false}
                   data={item.data}
                   renderItem={({ item }) => {
-                    return (
-                      <View style={styles.item}>
-                        <View
-                          style={{
-                            borderWidth: 1,
-                            borderColor: "#4445",
-                            marginRight: 10,
-                            borderRadius: 5,
-                            overflow: "hidden",
-                            width: 170,
-                          }}
-                        >
-                          <Pressable
-                            style={styles.homeScreenPressables}
-                            onPress={() => {
-                              router.navigate({
-                                pathname: "/foodItem",
-                                params: {
-                                  pic: item.pic,
-                                  title: item.title,
-                                  id: item.id,
-                                },
-                              });
-                            }}
-                          >
-                            <Image
-                              resizeMode="contain"
-                              source={item.pic}
-                              style={styles.images}
-                            />
-                          </Pressable>
-                          <View style={{ backgroundColor: "#fff", padding: 5 }}>
-                            <View
-                              style={{
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <Text
-                                numberOfLines={1}
-                                ellipsizeMode="tail"
-                                style={styles.dietaryPreview}
-                              >
-                                {item.title}
-                              </Text>
-                              <Text
-                                style={{ textAlign: "right", fontSize: 12 }}
-                              >
-                                {item.price || 999}
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                flex: 1,
-                              }}
-                            >
-                              <FontAwesome
-                                name="clock-o"
-                                size={15}
-                                color="#999"
-                                style={{ marginRight: 3 }}
-                              />
-                              <Text
-                                style={{
-                                  color: "#32cc34",
-                                  fontWeight: "600",
-                                  fontSize: 12,
-                                }}
-                              >
-                                {item.time || "30 mins"}
-                              </Text>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-                    );
+                    return <FlatlistItem DATA={item} />;
                   }}
                 />
               </>

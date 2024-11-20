@@ -4,114 +4,111 @@ import {
   View,
   SafeAreaView,
   Image,
+  FlatList,
   Pressable,
+  ScrollView,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 // import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { Dimensions } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import AddToTray from "./components/AddToTray";
+import FieldsetLegend from "./components/FieldsetLegend";
+import FlatlistItem from "./components/FlatlistItem";
 
 const width = Dimensions.get("window").width;
 export default function FoodItem() {
+  const DATA = [
+    {
+      id: 1,
+      title: "Ketchup",
+      price: 10,
+      pic: require("../assets/images/ketchup.jpg"),
+    },
+    {
+      id: 2,
+      title: "Mayonnaise",
+      price: 10,
+      pic: require("../assets/images/mayonnaise.png"),
+    },
+    {
+      id: 3,
+      title: "Hot Sauce",
+      price: 10,
+      pic: require("../assets/images/hotsauce.jpg"),
+    },
+  ];
   const params = useLocalSearchParams();
   const navigation = useNavigation();
-  const { id, title, pic } = params;
+  const { id, title, pic, subNote } = params;
   useLayoutEffect(() => {
+    console.log(subNote);
     navigation.setOptions({
       title,
       headerStyle: { backgroundColor: "#ff036a" },
-      // headerTitleStyle: { color: "#fff" },
+      headerTitleStyle: { fontWeight: "600" },
     });
   }, []);
-  const [counter, setCounter] = useState(0);
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-        position: "relative",
-      }}
-    >
+    <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.imageHolder}>
         <Image resizeMode="contain" source={pic} style={styles.images} />
       </View>
-      <View
+      <ScrollView
         style={{
           margin: 10,
-          flexDirection: "row",
-          alignItems: "center",
+          marginBottom: 50,
         }}
       >
-        <FontAwesome
-          name="heart"
-          size={20}
-          color="#06D001"
-          style={{ marginRight: 5 }}
-        />
-        <Text style={styles.title}>{title}</Text>
-      </View>
-      <View
-        style={{
-          backgroundColor: "#f0f0f0",
-          padding: 10,
-          width,
-          position: "absolute",
-          zIndex: 9,
-          bottom: 1,
-          flexDirection: "row",
-          alignSelf: "flex-start",
-          justifyContent: "space-between",
-        }}
-      >
-        <Text style={{ fontSize: 22, fontWeight: "600" }}>Add to Tray</Text>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Pressable
-            style={{
-              padding: 7,
-              backgroundColor: "#ff036a",
-              margin: 0,
-              borderRadius: 20,
-              width: "35",
-              aspectRatio: "1/1",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={() => {
-              setCounter((c) => (c > 0 ? c - 1 : 0));
-            }}
-          >
-            <FontAwesome name="minus" size={22} color="#222" />
-          </Pressable>
-          <Text
-            style={{ marginHorizontal: 10, fontSize: 20, fontWeight: "600" }}
-          >
-            {counter}
-          </Text>
-          <Pressable
-            style={{
-              padding: 7,
-              backgroundColor: "#ff036a",
-              margin: 0,
-              borderRadius: 20,
-              width: "35",
-              aspectRatio: "1/1",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={() => {
-              setCounter((c) => c + 1);
-            }}
-          >
-            <FontAwesome name="plus" size={22} color="#222" />
-          </Pressable>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            alignSelf: "auto",
+          }}
+        >
+          <View style={styles.titleHolder}>
+            <FontAwesome
+              name="heart"
+              size={20}
+              color="#06D001"
+              style={{ marginRight: 5 }}
+            />
+            <Text style={styles.title}>{title}</Text>
+          </View>
+          <Text>999</Text>
         </View>
-      </View>
+        <FieldsetLegend
+          legend="Dietary Information/ Ingredients"
+          innerText={subNote || "Some Dietary info goes here"}
+        />
+        <View style={{ marginTop: 15 }}>
+          <Text style={{ fontSize: 17, fontWeight: "600" }}>
+            Extras/Ekstralar
+          </Text>
+          <FlatList
+            horizontal
+            data={DATA}
+            renderItem={({ item }) => {
+              return (
+                <FlatlistItem DATA={item} pressable={false} key={item.id} />
+              );
+            }}
+          />
+        </View>
+      </ScrollView>
+      <AddToTray />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeAreaView: {
+    flex: 1,
+    backgroundColor: "white",
+    position: "relative",
+  },
   images: {
     width: "100%",
   },
@@ -124,6 +121,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderColor: "#222",
     borderBottomWidth: 1,
+  },
+  titleHolder: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
   title: {
     fontSize: 22,
