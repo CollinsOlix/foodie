@@ -17,6 +17,8 @@ import {
 import { EvilIcons, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import FlatlistItem from "./components/FlatlistItem";
+import Context from "./Context";
+import { useContext, useRef, useState } from "react";
 
 export default function HomeScreen() {
   const DATA = [
@@ -94,11 +96,9 @@ export default function HomeScreen() {
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={styles.safeAreaView}>
-        <View
-          style={{ flexDirection: "row", padding: 15, alignItems: "center" }}
-        >
-          <View style={{ flex: 1 }}>
-            <Pressable style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={styles.a}>
+          <View style={styles.b}>
+            <Pressable style={styles.c}>
               <FontAwesome6
                 name="location-dot"
                 size={26}
@@ -106,14 +106,21 @@ export default function HomeScreen() {
                 style={styles.pressableIcons}
               />
               <View>
-                <Text style={{ fontWeight: "bold", color: "#fff" }}>
+                <Text
+                  style={{
+                    fontWeight: "600",
+                    color: "#fff",
+                  }}
+                >
                   Address Line 1
                 </Text>
-                <Text style={{ color: "#fff" }}>Address Line 2</Text>
+                <Text style={{ color: "#fff", lineHeight: 15 }}>
+                  Address Line 2
+                </Text>
               </View>
             </Pressable>
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={styles.c}>
             <Pressable>
               <EvilIcons name="heart" color="white" size={30} />
             </Pressable>
@@ -127,7 +134,7 @@ export default function HomeScreen() {
             name="search"
             size={20}
             color="#333"
-            style={{ alignSelf: "center", marginLeft: 5 }}
+            style={{ alignSelf: "center", marginLeft: 10 }}
           />
           <TextInput
             multiline={false}
@@ -178,6 +185,9 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  a: { flexDirection: "row", padding: 15, alignItems: "center" },
+  b: { flex: 1 },
+  c: { flexDirection: "row", alignItems: "center" },
   safeAreaView: {
     flex: 1,
     backgroundColor: "#ff036a",
@@ -231,7 +241,7 @@ const styles = StyleSheet.create({
   textInputWrapper: {
     flexDirection: "row",
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 30,
     marginHorizontal: 15,
     marginBottom: 10,
     alignItems: "center",

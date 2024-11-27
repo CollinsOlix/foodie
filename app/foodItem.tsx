@@ -8,9 +8,12 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
-// import { SafeAreaView } from "react-native-safe-area-context";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import React, { useLayoutEffect } from "react";
+import {
+  UnknownOutputParams,
+  useLocalSearchParams,
+  useNavigation,
+} from "expo-router";
 import { Dimensions } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import AddToTray from "./components/AddToTray";
@@ -18,7 +21,10 @@ import FieldsetLegend from "./components/FieldsetLegend";
 import FlatlistItem from "./components/FlatlistItem";
 
 const width = Dimensions.get("window").width;
+
+//component entry point
 export default function FoodItem() {
+  //sample data for rendering components
   const DATA = [
     {
       id: 1,
@@ -41,9 +47,8 @@ export default function FoodItem() {
   ];
   const params = useLocalSearchParams();
   const navigation = useNavigation();
-  const { id, title, pic, subNote } = params;
+  const { id, title, pic, subNote }: UnknownOutputParams = params;
   useLayoutEffect(() => {
-    console.log(subNote);
     navigation.setOptions({
       title,
       headerStyle: { backgroundColor: "#ff036a" },
@@ -81,7 +86,7 @@ export default function FoodItem() {
         </View>
         <FieldsetLegend
           legend="Dietary Information/ Ingredients"
-          innerText={subNote || "Some Dietary info goes here"}
+          innerText={`${subNote}` || "Some Dietary info goes here"}
         />
         <View style={{ marginTop: 15 }}>
           <Text style={{ fontSize: 17, fontWeight: "600" }}>

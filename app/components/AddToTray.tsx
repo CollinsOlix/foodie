@@ -1,11 +1,19 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
+import Context from "../Context";
 
 const width = Dimensions.get("window").width;
+
 const AddToTray = () => {
   const [counter, setCounter] = useState(0);
-
+  const { activeItem, userOrderRef } = useContext(Context);
+  //functions used in this component
+  const handleCounter = (incType?: string) => {
+    incType == "increment"
+      ? setCounter((c) => c + 1)
+      : setCounter((c: number) => (c > 0 ? c - 1 : 0));
+  };
   return (
     <View style={styles.wrapper}>
       <Text style={{ fontSize: 22, fontWeight: "600" }}>Add to Tray</Text>
@@ -13,7 +21,7 @@ const AddToTray = () => {
         <Pressable
           style={styles.incrementorBtn}
           onPress={() => {
-            setCounter((c: number) => (c > 0 ? c - 1 : 0));
+            handleCounter();
           }}
         >
           <FontAwesome name="minus" size={22} color="#222" />
@@ -24,7 +32,8 @@ const AddToTray = () => {
         <Pressable
           style={styles.incrementorBtn}
           onPress={() => {
-            setCounter((c) => c + 1);
+            handleCounter("increment");
+            userOrderRef[`${activeItem}`] = counter;
           }}
         >
           <FontAwesome name="plus" size={22} color="#222" />

@@ -1,7 +1,8 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
+import Context from "../Context";
 
 const FlatlistItem = ({
   DATA,
@@ -16,24 +17,29 @@ const FlatlistItem = ({
     pressable: boolean;
   };
 }) => {
+  const { activeItem, setActiveItem, userOrderRef, setUserOrderState } =
+    useContext(Context);
+
+  //functions used in this component
+  const handlePress = () => {
+    setActiveItem(DATA?.title);
+    userOrderRef[`${DATA.title}`] = userOrderRef[`${DATA.title}`] || 0;
+    setUserOrderState({ ...userOrderRef });
+  };
+
+  const toggleExtra = () => {
+    setExtra((e) => !e);
+  };
   const [extra, setExtra] = useState(false);
-  console.log(DATA);
+
   return (
     <View style={styles.item}>
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: "#4445",
-          marginRight: 10,
-          borderRadius: 5,
-          overflow: "hidden",
-          width: 170,
-        }}
-      >
+      <View style={styles.a}>
         <Pressable
           style={styles.homeScreenPressables}
           onPress={() => {
-            pressable &&
+            if (pressable) {
+              handlePress();
               router.navigate({
                 pathname: "/foodItem",
                 params: {
@@ -43,6 +49,7 @@ const FlatlistItem = ({
                   subNote: DATA?.subNote,
                 },
               });
+            }
           }}
         >
           <Image
@@ -53,19 +60,14 @@ const FlatlistItem = ({
           {!pressable && (
             <Pressable
               onPress={() => {
-                setExtra((e) => !e);
+                toggleExtra();
               }}
-              style={{
-                position: "absolute",
-                bottom: 0,
-                zIndex: 2,
-                width: "100%",
-                // padding: 12,
-                backgroundColor: extra ? "#06D001" : "#4445",
-                justifyContent: "center",
-                alignItems: "center",
-                alignSelf: "center",
-              }}
+              style={[
+                styles.b,
+                {
+                  backgroundColor: extra ? "#06D001" : "#4445",
+                },
+              ]}
             >
               {extra ? (
                 <View style={{ paddingVertical: 5 }}>
@@ -132,6 +134,24 @@ const FlatlistItem = ({
 export default FlatlistItem;
 
 const styles = StyleSheet.create({
+  a: {
+    borderWidth: 1,
+    borderColor: "#4445",
+    marginRight: 10,
+    borderRadius: 5,
+    overflow: "hidden",
+    width: 170,
+  },
+  b: {
+    position: "absolute",
+    bottom: 0,
+    zIndex: 2,
+    width: "100%",
+    // padding: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+  },
   item: {
     marginBottom: 12,
   },
