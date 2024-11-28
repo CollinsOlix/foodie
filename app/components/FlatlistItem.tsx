@@ -40,6 +40,7 @@ const FlatlistItem = ({
           onPress={() => {
             if (pressable) {
               handlePress();
+              console.log(DATA.pic);
               router.navigate({
                 pathname: "/foodItem",
                 params: {

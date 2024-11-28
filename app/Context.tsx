@@ -6,6 +6,8 @@ const Context = createContext<{
   setActiveItem: React.Dispatch<React.SetStateAction<string>>;
   userOrderState: { [key: string]: any };
   setUserOrderState: React.Dispatch<React.SetStateAction<object>>;
+  lang: string;
+  setLang: React.Dispatch<React.SetStateAction<string>>;
 }>({});
 
 export default Context;

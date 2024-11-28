@@ -8,7 +8,6 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef, useState } from "react";
 import "react-native-reanimated";
@@ -17,7 +16,6 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import Context from "./Context";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -25,6 +23,7 @@ export default function RootLayout() {
   const [userOrderState, setUserOrderState] = useState({});
   const [activeItem, setActiveItem] = useState("");
   const userOrderRef = useRef(userOrderState).current;
+  const [lang, setLang] = useState("en");
   return (
     <Context.Provider
       value={{
@@ -33,6 +32,8 @@ export default function RootLayout() {
         setUserOrderState,
         activeItem,
         setActiveItem,
+        lang,
+        setLang,
       }}
     >
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

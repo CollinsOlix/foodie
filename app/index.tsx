@@ -6,7 +6,7 @@ import {
   SectionList,
   Pressable,
 } from "react-native";
-
+import DATA from "./components/foodDATA";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   FlatList,
@@ -21,78 +21,7 @@ import Context from "./Context";
 import { useContext, useRef, useState } from "react";
 
 export default function HomeScreen() {
-  const DATA = [
-    {
-      title: "Main dishes",
-      pic: require("@/assets/images/placeholder.jpg"),
-      data: [
-        {
-          title: "Salads/Salatalar",
-          data: [
-            {
-              title: "Classic Caesar Salad",
-              id: "ceaserSalad",
-              subNote: "Parmesan Shavings and Garlic Croutons",
-              pic: require("@/assets/images/csalad.jpg"),
-              time: "<20",
-            },
-            {
-              title: "Caprese Salad ",
-              id: "capreseSalad ",
-              subNote:
-                "Sliced Roma Tomatoes, Buffalo Mozzarella, Balsamic Dressing and Basil (v)",
-              pic: require("@/assets/images/capresesalad.jpg"),
-              time: "<20",
-            },
-          ],
-        },
-        {
-          title: "Soups/Çorbalar",
-          data: [
-            {
-              title: "Tomato Soup with Basil Cream (v)",
-              id: "tomatoSoup",
-              pic: require("@/assets/images/tomatoSoup.jpg"),
-            },
-          ],
-        },
-        {
-          title: "Cold Sandwiches",
-
-          data: [
-            {
-              title: "Egg Mayonnaise and Cress (v)",
-              id: "eggMayoCress",
-              pic: require("@/assets/images/placeholder.jpg"),
-            },
-            {
-              title: "Smoked Salmon* and Cucumber in a Poppy Seed Bage",
-              id: "smokedSalmonCucumber",
-              pic: require("@/assets/images/placeholder.jpg"),
-            },
-          ],
-        },
-
-        {
-          title: "Pizzas/Pizzalar",
-          id: "pizza",
-          pic: require("@/assets/images/placeholder.jpg"),
-          data: [
-            {
-              title: "Hawaiian Pizza",
-              id: "burger",
-              pic: require("@/assets/images/placeholder.jpg"),
-            },
-          ],
-        },
-      ],
-    },
-    {
-      title: "Drinks",
-
-      data: [{}],
-    },
-  ];
+  const { lang, setLang } = useContext(Context);
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={styles.safeAreaView}>
@@ -122,10 +51,16 @@ export default function HomeScreen() {
           </View>
           <View style={styles.c}>
             <Pressable>
-              <EvilIcons name="heart" color="white" size={30} />
-            </Pressable>
-            <Pressable>
               <EvilIcons name="cart" color="white" size={30} />
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                setLang((lang) =>
+                  lang == "en" ? (lang = "tr") : (lang = "en")
+                );
+              }}
+            >
+              <FontAwesome name="language" color="white" size={30} />
             </Pressable>
           </View>
         </View>
@@ -157,24 +92,33 @@ export default function HomeScreen() {
         >
           <SectionList
             showsVerticalScrollIndicator={false}
-            sections={DATA}
+            sections={DATA[`${lang}`]}
             keyExtractor={(item, index) => item + index}
-            renderItem={({ item }) => (
-              <>
-                <Text style={styles.itemSubHeaders}>{item.title}</Text>
+            renderItem={({ item }) => {
+              return <></>;
+              // return <FlatlistItem DATA={item} />
+              // return (
+              //   <>
+              //     <Text style={styles.itemSubHeaders}>{item.title}</Text>
+              //     <FlatList
+              //       horizontal
+              //       showsHorizontalScrollIndicator={false}
+              //       data={item.data}
+              //       renderItem={({ item }) => {
+              //       }}
+              //     />
+              //   </>
+              // );
+            }}
+            renderSectionHeader={({ section }) => (
+              <View style={{ marginTop: 5 }}>
+                <Text style={styles.itemHeaders}>{section.title}</Text>
                 <FlatList
                   horizontal
                   showsHorizontalScrollIndicator={false}
-                  data={item.data}
-                  renderItem={({ item }) => {
-                    return <FlatlistItem DATA={item} />;
-                  }}
+                  data={section.data}
+                  renderItem={({ item }) => <FlatlistItem DATA={item} />}
                 />
-              </>
-            )}
-            renderSectionHeader={({ section }) => (
-              <View style={{ marginVertical: 10 }}>
-                <Text style={styles.itemHeaders}>{section.title}</Text>
               </View>
             )}
           />
@@ -209,8 +153,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   itemHeaders: {
-    fontWeight: "bold",
-    fontSize: 30,
+    fontWeight: "600",
+    fontSize: 25,
+    marginVertical: 5,
   },
   itemSubHeaders: {
     fontSize: 24,

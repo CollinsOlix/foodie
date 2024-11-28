@@ -55,6 +55,7 @@ export default function FoodItem() {
       headerTitleStyle: { fontWeight: "600" },
     });
   }, []);
+  console.log(pic);
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.imageHolder}>
