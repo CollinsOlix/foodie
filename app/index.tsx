@@ -11,14 +11,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   FlatList,
   GestureHandlerRootView,
-  TouchableOpacity,
   TextInput,
 } from "react-native-gesture-handler";
 import { EvilIcons, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
-import { router } from "expo-router";
 import FlatlistItem from "./components/FlatlistItem";
 import Context from "./Context";
-import { useContext, useRef, useState } from "react";
+import { useContext } from "react";
 
 export default function HomeScreen() {
   const { lang, setLang } = useContext(Context);
@@ -156,6 +154,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 25,
     marginVertical: 5,
+    textTransform: "uppercase",
   },
   itemSubHeaders: {
     fontSize: 24,

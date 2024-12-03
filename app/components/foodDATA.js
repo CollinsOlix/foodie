@@ -53,6 +53,68 @@ const DATA = {
         },
       ],
     },
+    {
+      title: "Eggs on request",
+      data: [
+        {
+          title: "Plain Omelette",
+          time: "~10",
+          price: "170",
+          subNote: "Plain Omelette",
+          pic: require("@/assets/images/plainOmelette.png"),
+        },
+        {
+          title: "Boiled Eggs",
+          time: "~10",
+          price: "100",
+          subNote: "Boiled Eggs",
+          pic: require("@/assets/images/boiledEggs.jpg"),
+        },
+        {
+          title: "Fried Eggs",
+          time: "~10",
+          price: "170",
+          subNote: "Fried Eggs",
+          pic: require("@/assets/images/friedEggs.jpg"),
+        },
+        {
+          title: "Turkish Style Eggs",
+          time: "~10",
+          price: "280",
+          subNote: "Turkish Style Eggs",
+          pic: require("@/assets/images/menemen.jpg"),
+        },
+      ],
+    },
+    {
+      title: "Additions",
+      data: [
+        {
+          title: "Roasted Beef",
+          pic: require("@/assets/images/roastedBeef.jpg"),
+          subNote: "Roasted beef",
+          price: "200",
+        },
+        {
+          title: "Sausage",
+          pic: require("@/assets/images/sausage.png"),
+          subNote: "Sausage",
+          price: "200",
+        },
+        {
+          title: "Bacon",
+          pic: require("@/assets/images/bacon.jpg"),
+          subNote: "Bacon",
+          price: "250",
+        },
+        {
+          title: "Tomatoes",
+          pic: require("@/assets/images/tomato.jpg"),
+          subNote: "Tomatoes",
+          price: "100",
+        },
+      ],
+    },
   ],
   tr: [
     {
@@ -105,6 +167,39 @@ const DATA = {
           subNote: "Kavurma",
           pic: require("@/assets/images/roastedBeef.jpg"),
           price: "900",
+        },
+      ],
+    },
+    {
+      title: "Yumurta çeşitleri",
+      data: [
+        {
+          title: "Sade Omlet",
+          time: "~10",
+          price: "170",
+          subNote: "Sade Omlet",
+          pic: require("@/assets/images/plainOmelette.png"),
+        },
+        {
+          title: "Haşlanmış Yumurta",
+          time: "~10",
+          price: "100",
+          subNote: "Haşlanmış Yumurta",
+          pic: require("@/assets/images/boiledEggs.jpg"),
+        },
+        {
+          title: "Sahanda Yumurta",
+          time: "~10",
+          price: "170",
+          subNote: "Sahanda Yumurta",
+          pic: require("@/assets/images/friedEggs.jpg"),
+        },
+        {
+          title: "Menemen",
+          time: "~10",
+          price: "280",
+          subNote: "Menemen",
+          pic: require("@/assets/images/menemen.jpg"),
         },
       ],
     },
