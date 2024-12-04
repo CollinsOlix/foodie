@@ -1,18 +1,50 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import Context from "../Context";
-
+import { router } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 const width = Dimensions.get("window").width;
 
 const AddToTray = () => {
-  const [counter, setCounter] = useState(0);
-  const { activeItem, userOrderRef } = useContext(Context);
+  const { activeItem, userOrderRef, setUserOrderState, userOrderState } =
+    useContext(Context);
+  const [counter, setCounter] = useState(userOrderRef[`${activeItem}`]);
+  const navigation = useNavigation();
+  useEffect(() => {
+    console.log(userOrderState);
+    navigation.setOptions({
+      headerLeft: () => (
+        <>
+          <Pressable
+            onPress={() => {
+              if (!userOrderRef?.[activeItem])
+                delete userOrderRef[`${activeItem}`];
+              setUserOrderState(userOrderRef[`${activeItem}`]);
+              navigation.goBack();
+            }}
+            style={{
+              paddingRight: 10,
+            }}
+          >
+            <FontAwesome name="arrow-left" size={24} color="white" />
+          </Pressable>
+        </>
+      ),
+    });
+    // handleBackPress();
+
+    userOrderRef[`${activeItem}`] = counter;
+    setUserOrderState(userOrderRef);
+  }, [counter]);
+
   //functions used in this component
   const handleCounter = (incType?: string) => {
-    incType == "increment"
-      ? setCounter((c) => c + 1)
-      : setCounter((c: number) => (c > 0 ? c - 1 : 0));
+    if (incType == "increment") {
+      setCounter((c: number) => c + 1);
+    } else {
+      setCounter((c: number) => (c > 0 ? c - 1 : 0));
+    }
   };
   return (
     <View style={styles.wrapper}>
@@ -33,7 +65,6 @@ const AddToTray = () => {
           style={styles.incrementorBtn}
           onPress={() => {
             handleCounter("increment");
-            userOrderRef[`${activeItem}`] = counter;
           }}
         >
           <FontAwesome name="plus" size={22} color="#222" />

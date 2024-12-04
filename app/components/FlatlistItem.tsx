@@ -3,26 +3,21 @@ import React, { useContext, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Context from "../Context";
+import { MenuItem } from "./types";
 
 const FlatlistItem = ({
   DATA,
   pressable = true,
 }: {
-  DATA: {
-    title: string | "title";
-    time: string | null;
-    pic: number | null;
-    price: number | 999;
-    id: number;
-    pressable: boolean;
-  };
+  DATA: MenuItem;
+  pressable: boolean;
 }) => {
   const { activeItem, setActiveItem, userOrderRef, setUserOrderState } =
     useContext(Context);
 
   //functions used in this component
   const handlePress = () => {
-    setActiveItem(DATA?.title);
+    if (DATA.title) setActiveItem(DATA.title);
     userOrderRef[`${DATA.title}`] = userOrderRef[`${DATA.title}`] || 0;
     setUserOrderState({ ...userOrderRef });
   };
@@ -40,7 +35,6 @@ const FlatlistItem = ({
           onPress={() => {
             if (pressable) {
               handlePress();
-              console.log(DATA.pic);
               router.navigate({
                 pathname: "/foodItem",
                 params: {

@@ -29,19 +29,19 @@ export default function FoodItem() {
     {
       id: 1,
       title: "Ketchup",
-      price: 10,
+      price: "10",
       pic: require("../assets/images/ketchup.jpg"),
     },
     {
       id: 2,
       title: "Mayonnaise",
-      price: 10,
+      price: "10",
       pic: require("../assets/images/mayonnaise.png"),
     },
     {
       id: 3,
       title: "Hot Sauce",
-      price: 10,
+      price: "10",
       pic: require("../assets/images/hotsauce.jpg"),
     },
   ];
@@ -50,12 +50,11 @@ export default function FoodItem() {
   const { id, title, pic, subNote }: UnknownOutputParams = params;
   useLayoutEffect(() => {
     navigation.setOptions({
-      title,
+      title: "Back to Room Service Menu",
       headerStyle: { backgroundColor: "#ff036a" },
       headerTitleStyle: { fontWeight: "600" },
     });
   }, []);
-  console.log(pic);
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.imageHolder}>

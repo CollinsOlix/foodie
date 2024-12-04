@@ -5,6 +5,11 @@ import {
   Text,
   SectionList,
   Pressable,
+  useColorScheme,
+  ColorSchemeName,
+  Appearance,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import DATA from "./components/foodDATA";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,115 +18,86 @@ import {
   GestureHandlerRootView,
   TextInput,
 } from "react-native-gesture-handler";
-import { EvilIcons, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import FlatlistItem from "./components/FlatlistItem";
 import Context from "./Context";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function HomeScreen() {
-  const { lang, setLang } = useContext(Context);
+  const { lang, setLang } = useContext(Context) as {
+    lang: "en" | "tr";
+    setLang: (lang: "en" | "tr") => void;
+  }; // Specify the type for lang;
+  const [theme, setTheme] = useState(useColorScheme());
+  const activeData = DATA[`${lang}`];
+  // const themeColors;
+  let tempObj = {};
+
   return (
     <GestureHandlerRootView>
-      <SafeAreaView style={styles.safeAreaView}>
-        <View style={styles.a}>
-          <View style={styles.b}>
-            <Pressable style={styles.c}>
-              <FontAwesome6
-                name="location-dot"
-                size={26}
-                color="white"
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
+        <SafeAreaView style={styles.safeAreaView}>
+          <View style={styles.a}>
+            <View style={styles.b}>
+              <Text style={styles.headerText}>Room Service Menu</Text>
+            </View>
+            <View style={styles.c}>
+              <Pressable
                 style={styles.pressableIcons}
-              />
-              <View>
-                <Text
-                  style={{
-                    fontWeight: "600",
-                    color: "#fff",
-                  }}
-                >
-                  Address Line 1
-                </Text>
-                <Text style={{ color: "#fff", lineHeight: 15 }}>
-                  Address Line 2
-                </Text>
-              </View>
-            </Pressable>
+                onPress={() => {
+                  setLang(lang === "en" ? "tr" : "en");
+                }}
+              >
+                <FontAwesome name="language" color="white" size={30} />
+              </Pressable>
+            </View>
           </View>
-          <View style={styles.c}>
-            <Pressable>
-              <EvilIcons name="cart" color="white" size={30} />
-            </Pressable>
-            <Pressable
-              onPress={() => {
-                setLang((lang) =>
-                  lang == "en" ? (lang = "tr") : (lang = "en")
-                );
+          <View style={styles.textInputWrapper}>
+            <FontAwesome
+              name="search"
+              size={20}
+              color="#333"
+              style={{ alignSelf: "center", marginLeft: 10 }}
+            />
+            <TextInput
+              multiline={false}
+              style={styles.homeScreenTextInput}
+              textAlignVertical="center"
+              placeholderTextColor="#999"
+              placeholder="Search for a dish"
+              numberOfLines={1}
+              maxLength={35}
+            />
+          </View>
+          <View style={[styles.sectionListWrapper]}>
+            <SectionList
+              showsVerticalScrollIndicator={false}
+              sections={activeData}
+              keyExtractor={(item, index) => `${item}` + index}
+              renderItem={({ item }) => {
+                return <></>;
               }}
-            >
-              <FontAwesome name="language" color="white" size={30} />
-            </Pressable>
+              renderSectionHeader={({ section }) => (
+                <View style={{ marginTop: 5 }}>
+                  <Text style={[styles.itemHeaders]}>{section.title}</Text>
+                  <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={section.data}
+                    renderItem={({ item }) => (
+                      <FlatlistItem DATA={item} pressable={true} />
+                    )}
+                  />
+                </View>
+              )}
+            />
           </View>
-        </View>
-        <View style={styles.textInputWrapper}>
-          <FontAwesome
-            name="search"
-            size={20}
-            color="#333"
-            style={{ alignSelf: "center", marginLeft: 10 }}
-          />
-          <TextInput
-            multiline={false}
-            style={styles.homeScreenTextInput}
-            textAlignVertical="center"
-            placeholderTextColor="#999"
-            placeholder="Search for a dish"
-            numberOfLines={1}
-            maxLength={35}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#fff",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            paddingHorizontal: 15,
-          }}
-        >
-          <SectionList
-            showsVerticalScrollIndicator={false}
-            sections={DATA[`${lang}`]}
-            keyExtractor={(item, index) => item + index}
-            renderItem={({ item }) => {
-              return <></>;
-              // return <FlatlistItem DATA={item} />
-              // return (
-              //   <>
-              //     <Text style={styles.itemSubHeaders}>{item.title}</Text>
-              //     <FlatList
-              //       horizontal
-              //       showsHorizontalScrollIndicator={false}
-              //       data={item.data}
-              //       renderItem={({ item }) => {
-              //       }}
-              //     />
-              //   </>
-              // );
-            }}
-            renderSectionHeader={({ section }) => (
-              <View style={{ marginTop: 5 }}>
-                <Text style={styles.itemHeaders}>{section.title}</Text>
-                <FlatList
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={section.data}
-                  renderItem={({ item }) => <FlatlistItem DATA={item} />}
-                />
-              </View>
-            )}
-          />
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     </GestureHandlerRootView>
   );
 }
@@ -133,6 +109,11 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: "#ff036a",
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: "600",
+    color: "#fff",
   },
   profileNav: {
     padding: 15,
@@ -180,7 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pressableIcons: {
-    paddingRight: 5,
+    marginHorizontal: 5,
   },
   textInputWrapper: {
     flexDirection: "row",
@@ -197,5 +178,12 @@ const styles = StyleSheet.create({
     flex: 1,
     // padding: 10,
     marginVertical: 10,
+  },
+  sectionListWrapper: {
+    flex: 1,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    paddingHorizontal: 15,
   },
 });

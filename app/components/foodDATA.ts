@@ -1,4 +1,6 @@
-const DATA = {
+import { MenuData } from "./types";
+
+const DATA: MenuData = {
   en: [
     {
       title: "SET BREAKFAST",
@@ -28,6 +30,7 @@ const DATA = {
           title: "Cereals",
           price: "275",
           time: "~10",
+          pic: require("@/assets/images/placeholder.jpg"),
           subNote:
             "Corn Flakes Choco-Crumpies, or Granola. Served with Cold or Hot Milk, Light Milk.",
         },
