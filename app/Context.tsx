@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { MenuSection } from "./components/types";
+import { Language, MenuSection } from "./components/types";
 
 const Context = createContext<{
   activeData: MenuSection[];
@@ -9,7 +9,7 @@ const Context = createContext<{
   userOrderState: { [key: string]: any };
   setUserOrderState: React.Dispatch<React.SetStateAction<object>>;
   lang?: string;
-  setLang: React.Dispatch<React.SetStateAction<string>>;
+  setLang: React.Dispatch<React.SetStateAction<Language>>;
 }>({});
 
 export default Context;

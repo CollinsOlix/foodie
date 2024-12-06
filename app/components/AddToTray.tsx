@@ -1,9 +1,15 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import Context from "../Context";
-import { router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
+import BackButton from "./BackButton";
 const width = Dimensions.get("window").width;
 
 const AddToTray = () => {
@@ -11,32 +17,19 @@ const AddToTray = () => {
     useContext(Context);
   const [counter, setCounter] = useState(userOrderRef[`${activeItem}`]);
   const navigation = useNavigation();
-  useEffect(() => {
-    console.log(userOrderState);
+  useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <>
-          <Pressable
-            onPress={() => {
-              if (!userOrderRef?.[activeItem])
-                delete userOrderRef[`${activeItem}`];
-              setUserOrderState(userOrderRef[`${activeItem}`]);
-              navigation.goBack();
-            }}
-            style={{
-              paddingRight: 10,
-            }}
-          >
-            <FontAwesome name="arrow-left" size={24} color="white" />
-          </Pressable>
-        </>
-      ),
+      headerLeft: () => <BackButton />,
     });
-    // handleBackPress();
-
+  }, []);
+  useEffect(() => {
     userOrderRef[`${activeItem}`] = counter;
     setUserOrderState(userOrderRef);
   }, [counter]);
+
+  useEffect(() => {
+    console.log(userOrderState);
+  }, [userOrderState, counter]);
 
   //functions used in this component
   const handleCounter = (incType?: string) => {

@@ -1,13 +1,9 @@
 import {
-  Image,
   StyleSheet,
   View,
   Text,
   SectionList,
   Pressable,
-  useColorScheme,
-  ColorSchemeName,
-  Appearance,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
@@ -18,7 +14,7 @@ import {
   GestureHandlerRootView,
   TextInput,
 } from "react-native-gesture-handler";
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import FlatlistItem from "./components/FlatlistItem";
 import Context from "./Context";
 import { useContext } from "react";

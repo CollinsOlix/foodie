@@ -47,12 +47,11 @@ export default function FoodItem() {
   ];
   const params = useLocalSearchParams();
   const navigation = useNavigation();
-  const { id, title, pic, subNote }: UnknownOutputParams = params;
+  const { title, pic, subNote }: UnknownOutputParams = params;
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Back to Room Service Menu",
       headerStyle: { backgroundColor: "#ff036a" },
-      headerTitleStyle: { fontWeight: "600" },
     });
   }, []);
   return (
