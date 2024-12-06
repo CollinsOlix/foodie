@@ -1,6 +1,8 @@
 import { createContext } from "react";
+import { MenuSection } from "./components/types";
 
 const Context = createContext<{
+  activeData: MenuSection[];
   userOrderRef: { [key: string]: any };
   activeItem: string;
   setActiveItem: React.Dispatch<React.SetStateAction<string>>;

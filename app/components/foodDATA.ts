@@ -1,4 +1,10 @@
+import { useContext } from "react";
 import { MenuData } from "./types";
+import Context from "../Context";
+const { lang, setLang } = useContext(Context) as {
+  lang: "en" | "tr";
+  setLang: (lang: "en" | "tr") => void;
+}; // Specify the type for lang;
 
 const DATA: MenuData = {
   en: [
@@ -208,82 +214,10 @@ const DATA: MenuData = {
     },
   ],
 };
-// {
-//   title: "SET KAHVALTILAR",
-//   en: "SET BREAKFAST",
-//   pic: require("@/assets/images/placeholder.jpg"),
-//   data: [
-//     {
-//       title: "Kahvalti tabagi",
-//       en: "Breakfast plate",
-//       price: 900,
-//       subNote1: "",
-//     },
-//     {
-//       title: "Salads/Salatalar",
-//       data: [
-//         {
-//           title: "Classic Caesar Salad",
-//           id: "ceaserSalad",
-//           subNote: "Parmesan Shavings and Garlic Croutons",
-//           pic: require("@/assets/images/csalad.jpg"),
-//           time: "<20",
-//         },
-//         {
-//           title: "Caprese Salad ",
-//           id: "capreseSalad ",
-//           subNote:
-//             "Sliced Roma Tomatoes, Buffalo Mozzarella, Balsamic Dressing and Basil (v)",
-//           pic: require("@/assets/images/capresesalad.jpg"),
-//           time: "<20",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Soups/Çorbalar",
-//       data: [
-//         {
-//           title: "Tomato Soup with Basil Cream (v)",
-//           id: "tomatoSoup",
-//           pic: require("@/assets/images/tomatoSoup.jpg"),
-//         },
-//       ],
-//     },
-//     {
-//       title: "Cold Sandwiches",
 
-//       data: [
-//         {
-//           title: "Egg Mayonnaise and Cress (v)",
-//           id: "eggMayoCress",
-//           pic: require("@/assets/images/placeholder.jpg"),
-//         },
-//         {
-//           title: "Smoked Salmon* and Cucumber in a Poppy Seed Bage",
-//           id: "smokedSalmonCucumber",
-//           pic: require("@/assets/images/placeholder.jpg"),
-//         },
-//       ],
-//     },
+// Example usage:
+// const userInput = "Les ";
+// const extractedElements = extractElements(DATA, userInput);
+// console.log(extractedElements);
 
-//     {
-//       title: "Pizzas/Pizzalar",
-//       id: "pizza",
-//       pic: require("@/assets/images/placeholder.jpg"),
-//       data: [
-//         {
-//           title: "Hawaiian Pizza",
-//           id: "burger",
-//           pic: require("@/assets/images/placeholder.jpg"),
-//         },
-//       ],
-//     },
-//   ],
-// },
-// {
-//   title: "Drinks",
-
-//   data: [{}],
-// },
-
-export default DATA;
+export { DATA };

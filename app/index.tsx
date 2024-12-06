@@ -11,7 +11,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import DATA from "./components/foodDATA";
+import { DATA } from "./components/foodDATA";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   FlatList,
@@ -21,17 +21,34 @@ import {
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import FlatlistItem from "./components/FlatlistItem";
 import Context from "./Context";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
+import { MenuItem } from "./components/types";
 
 export default function HomeScreen() {
-  const { lang, setLang } = useContext(Context) as {
-    lang: "en" | "tr";
-    setLang: (lang: "en" | "tr") => void;
-  }; // Specify the type for lang;
-  const [theme, setTheme] = useState(useColorScheme());
-  const activeData = DATA[`${lang}`];
-  // const themeColors;
-  let tempObj = {};
+  const { lang, setLang, activeData } = useContext(Context);
+  function extractElements(userInput: string) {
+    let extractedElements: MenuItem[] = [];
+
+    Object.keys(DATA).forEach(() => {
+      activeData.forEach((category) => {
+        category.data.forEach((item) => {
+          if (item.title)
+            if (item.title.toLowerCase().includes(userInput.toLowerCase())) {
+              extractedElements.push(item);
+            }
+        });
+      });
+    });
+
+    return extractedElements;
+  }
+  const handleSearch = (userInput: string) => {
+    Keyboard.dismiss();
+    let tempObj = extractElements(userInput);
+    console.log(tempObj);
+  };
+
+  let timer: NodeJS.Timeout | null = null;
 
   return (
     <GestureHandlerRootView>
@@ -71,6 +88,15 @@ export default function HomeScreen() {
               placeholder="Search for a dish"
               numberOfLines={1}
               maxLength={35}
+              onChangeText={(e) => {
+                if (timer) {
+                  clearTimeout(timer);
+                } else {
+                  setTimeout(() => {
+                    handleSearch(e);
+                  }, 1500);
+                }
+              }}
             />
           </View>
           <View style={[styles.sectionListWrapper]}>
