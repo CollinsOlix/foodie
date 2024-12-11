@@ -12,14 +12,14 @@ const FlatlistItem = ({
   DATA: MenuItem;
   pressable: boolean;
 }) => {
-  const { activeItem, setActiveItem, userOrderRef, setUserOrderState } =
+  const { activeItem, setActiveItem, orderRef, setOrderState } =
     useContext(Context);
 
   //functions used in this component
   const handlePress = () => {
     if (DATA.title) setActiveItem(DATA.title);
-    userOrderRef[`${DATA.title}`] = userOrderRef[`${DATA.title}`] || 0;
-    setUserOrderState({ ...userOrderRef });
+    orderRef[`${DATA.title}`] = orderRef[`${DATA.title}`] || 0;
+    setOrderState({ ...orderRef });
   };
 
   const toggleExtra = () => {

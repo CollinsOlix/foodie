@@ -7,44 +7,71 @@ import {
   FlatList,
   Pressable,
   ScrollView,
+  Animated,
 } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import {
+  router,
   UnknownOutputParams,
   useLocalSearchParams,
   useNavigation,
 } from "expo-router";
 import { Dimensions } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import AddToTray from "./components/AddToTray";
 import FieldsetLegend from "./components/FieldsetLegend";
 import FlatlistItem from "./components/FlatlistItem";
+import BackButton from "./components/BackButton";
+import Context from "./Context";
 
 const width = Dimensions.get("window").width;
 
 //component entry point
 export default function FoodItem() {
+  const { orderState } = useContext(Context);
+  const animatedScale = useRef(new Animated.Value(0)).current;
+
   //sample data for rendering components
   const DATA = [
     {
       id: 1,
       title: "Ketchup",
       price: "10",
-      pic: require("../assets/images/ketchup.jpg"),
+      pic: require("@/assets/images/ketchup.jpg"),
     },
     {
       id: 2,
       title: "Mayonnaise",
       price: "10",
-      pic: require("../assets/images/mayonnaise.png"),
+      pic: require("@/assets/images/mayonnaise.png"),
     },
     {
       id: 3,
       title: "Hot Sauce",
       price: "10",
-      pic: require("../assets/images/hotsauce.jpg"),
+      pic: require("@/assets/images/hotsauce.jpg"),
     },
   ];
+
+  const navigateToViewOrdersInBasket = () => {
+    router.navigate({ pathname: "/OrderBasketScreen" });
+  };
+
+  //Handles Bounce Animation for when item is added to basket
+  const bounceAnimation = () => {
+    console.log("Starting animation");
+    animatedScale.setValue(0.3);
+    Animated.spring(animatedScale, {
+      toValue: 1,
+      bounciness: 24,
+      speed: 20,
+      useNativeDriver: true,
+    }).start();
+  };
   const params = useLocalSearchParams();
   const navigation = useNavigation();
   const { title, pic, subNote }: UnknownOutputParams = params;
@@ -52,7 +79,31 @@ export default function FoodItem() {
     navigation.setOptions({
       title: "Back to Room Service Menu",
       headerStyle: { backgroundColor: "#ff036a" },
+      headerTintColor: "#ff036a",
+      headerRight: () => (
+        <Pressable onPress={navigateToViewOrdersInBasket}>
+          <Animated.View
+            style={[
+              styles.ordersBtn,
+              { transform: [{ scale: animatedScale }] },
+            ]}
+          >
+            {orderState ? (
+              <MaterialIcons name="room-service" size={27} color="white" />
+            ) : (
+              <MaterialCommunityIcons
+                name="room-service-outline"
+                size={27}
+                color="white"
+              />
+            )}
+          </Animated.View>
+        </Pressable>
+      ),
     });
+  }, []);
+  useLayoutEffect(() => {
+    animatedScale.setValue(1);
   }, []);
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -102,7 +153,7 @@ export default function FoodItem() {
           />
         </View>
       </ScrollView>
-      <AddToTray />
+      <AddToTray bounceAnimation={bounceAnimation} />
     </SafeAreaView>
   );
 }
@@ -112,6 +163,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     position: "relative",
+  },
+  ordersBtn: {
+    padding: 10,
   },
   images: {
     width: "100%",

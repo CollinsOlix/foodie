@@ -3,11 +3,11 @@ import { Language, MenuSection } from "./components/types";
 
 const Context = createContext<{
   activeData: MenuSection[];
-  userOrderRef: { [key: string]: any };
+  orderRef: { [key: string]: any };
   activeItem: string;
   setActiveItem: React.Dispatch<React.SetStateAction<string>>;
-  userOrderState: { [key: string]: any };
-  setUserOrderState: React.Dispatch<React.SetStateAction<object>>;
+  orderState: { [key: string]: any };
+  setOrderState: React.Dispatch<React.SetStateAction<object>>;
   lang?: string;
   setLang: React.Dispatch<React.SetStateAction<Language>>;
 }>({});

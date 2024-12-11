@@ -11,9 +11,9 @@ import { DATA } from "./components/foodDATA";
 import { Language, MenuSection } from "./components/types";
 
 export default function RootLayout() {
-  const [userOrderState, setUserOrderState] = useState({});
+  const [orderState, setOrderState] = useState({});
   const [activeItem, setActiveItem] = useState("");
-  const userOrderRef = useRef(userOrderState).current;
+  const orderRef = useRef(orderState).current;
   const [lang, setLang] = useState<Language>("en");
   const [activeData, setActiveData] = useState<MenuSection[]>(DATA?.[lang]);
 
@@ -21,9 +21,9 @@ export default function RootLayout() {
     <Context.Provider
       value={{
         activeData,
-        userOrderRef,
-        userOrderState,
-        setUserOrderState,
+        orderRef,
+        orderState,
+        setOrderState,
         activeItem,
         setActiveItem,
         lang,
@@ -37,6 +37,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="foodItem" />
+        <Stack.Screen name="OrderBasketScreen" />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

@@ -12,10 +12,10 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "./BackButton";
 const width = Dimensions.get("window").width;
 
-const AddToTray = () => {
-  const { activeItem, userOrderRef, setUserOrderState, userOrderState } =
+const AddToTray = ({ bounceAnimation }: { bounceAnimation: Function }) => {
+  const { activeItem, orderRef, setOrderState, orderState } =
     useContext(Context);
-  const [counter, setCounter] = useState(userOrderRef[`${activeItem}`]);
+  const [counter, setCounter] = useState(orderRef[`${activeItem}`]);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -23,13 +23,13 @@ const AddToTray = () => {
     });
   }, []);
   useEffect(() => {
-    userOrderRef[`${activeItem}`] = counter;
-    setUserOrderState(userOrderRef);
+    orderRef[`${activeItem}`] = counter;
+    setOrderState(orderRef);
   }, [counter]);
 
   useEffect(() => {
-    console.log(userOrderState);
-  }, [userOrderState, counter]);
+    console.log(orderState);
+  }, [orderState, counter]);
 
   //functions used in this component
   const handleCounter = (incType?: string) => {
@@ -58,6 +58,7 @@ const AddToTray = () => {
           style={styles.incrementorBtn}
           onPress={() => {
             handleCounter("increment");
+            bounceAnimation();
           }}
         >
           <FontAwesome name="plus" size={22} color="#222" />

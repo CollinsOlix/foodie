@@ -6,12 +6,12 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const BackButton = () => {
   const navigation = useNavigation();
-  const { userOrderRef, activeItem, setUserOrderState } = useContext(Context);
+  const { orderRef, activeItem, setOrderState } = useContext(Context);
   return (
     <Pressable
       onPress={() => {
-        if (!userOrderRef?.[activeItem]) delete userOrderRef[`${activeItem}`];
-        setUserOrderState(userOrderRef[`${activeItem}`]);
+        if (!orderRef?.[activeItem]) delete orderRef[`${activeItem}`];
+        setOrderState(orderRef[`${activeItem}`]);
         navigation.goBack();
       }}
       style={{
