@@ -2,7 +2,7 @@ type Language = "en" | "tr";
 
 interface MenuItem {
   title?: string;
-  price?: string;
+  price?: number;
   time?: string;
   pic?: any;
   subNote?: string;
@@ -19,4 +19,11 @@ interface MenuData {
   tr: MenuSection[];
 }
 
-export { MenuData, MenuItem, MenuSection, Language };
+type ItemDetailsType = {
+  price: number;
+  quantity: number;
+  title: string;
+  pic: any;
+};
+
+export { MenuData, MenuItem, MenuSection, Language, ItemDetailsType };

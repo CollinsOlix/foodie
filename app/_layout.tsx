@@ -38,6 +38,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="foodItem" />
         <Stack.Screen name="OrderBasketScreen" />
+        {/* <Stack.Screen name="ConfirmOrderScreen" /> */}
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

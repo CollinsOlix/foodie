@@ -10,6 +10,15 @@ const Context = createContext<{
   setOrderState: React.Dispatch<React.SetStateAction<object>>;
   lang?: string;
   setLang: React.Dispatch<React.SetStateAction<Language>>;
-}>({});
+}>({
+  activeData: [],
+  orderRef: {},
+  activeItem: "",
+  setActiveItem: () => {},
+  orderState: {},
+  setOrderState: () => {},
+  lang: "en",
+  setLang: () => {},
+});
 
 export default Context;

@@ -10,26 +10,33 @@ import { FontAwesome } from "@expo/vector-icons";
 import Context from "../Context";
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "./BackButton";
+import tailwind from "twrnc";
 const width = Dimensions.get("window").width;
 
 const AddToTray = ({ bounceAnimation }: { bounceAnimation: Function }) => {
-  const { activeItem, orderRef, setOrderState, orderState } =
-    useContext(Context);
-  const [counter, setCounter] = useState(orderRef[`${activeItem}`]);
+  //retrieving items stored in context store
+  const { activeItem, orderRef, setOrderState } = useContext(Context);
+
+  //Counter stateful variable for incrementing
+  //or decrementing item quantity
+  const [counter, setCounter] = useState(
+    orderRef[`${activeItem}`]?.[`quantity`]
+  );
+
+  //layout navigation object
   const navigation = useNavigation();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => <BackButton />,
     });
   }, []);
+
+  //.
   useEffect(() => {
-    orderRef[`${activeItem}`] = counter;
+    orderRef[`${activeItem}`].quantity = counter;
     setOrderState(orderRef);
   }, [counter]);
-
-  useEffect(() => {
-    console.log(orderState);
-  }, [orderState, counter]);
 
   //functions used in this component
   const handleCounter = (incType?: string) => {
@@ -41,8 +48,9 @@ const AddToTray = ({ bounceAnimation }: { bounceAnimation: Function }) => {
   };
   return (
     <View style={styles.wrapper}>
-      <Text style={{ fontSize: 22, fontWeight: "600" }}>Add to Tray</Text>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <Text style={tailwind`text-xl font-bold`}>Add to Tray</Text>
+      <View style={tailwind`flex-row items-center`}>
+        {/* Minus Icon to indicate reduction */}
         <Pressable
           style={styles.incrementorBtn}
           onPress={() => {
@@ -51,14 +59,12 @@ const AddToTray = ({ bounceAnimation }: { bounceAnimation: Function }) => {
         >
           <FontAwesome name="minus" size={22} color="#222" />
         </Pressable>
-        <Text style={{ marginHorizontal: 10, fontSize: 20, fontWeight: "600" }}>
-          {counter}
-        </Text>
+        <Text style={tailwind`mr-5 ml-5 text-xl font-semibold`}>{counter}</Text>
         <Pressable
           style={styles.incrementorBtn}
           onPress={() => {
             handleCounter("increment");
-            bounceAnimation();
+            !orderRef?.[activeItem].quantity && bounceAnimation();
           }}
         >
           <FontAwesome name="plus" size={22} color="#222" />

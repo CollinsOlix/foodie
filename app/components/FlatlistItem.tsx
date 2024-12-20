@@ -4,6 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Context from "../Context";
 import { MenuItem } from "./types";
+import tw from "twrnc";
 
 const FlatlistItem = ({
   DATA,
@@ -18,7 +19,14 @@ const FlatlistItem = ({
   //functions used in this component
   const handlePress = () => {
     if (DATA.title) setActiveItem(DATA.title);
-    orderRef[`${DATA.title}`] = orderRef[`${DATA.title}`] || 0;
+    if (orderRef && DATA.title) {
+      orderRef[DATA.title] = {
+        price: DATA.price,
+        quantity: orderRef[DATA.title] ? orderRef[DATA.title].quantity : 0,
+        title: DATA.title,
+        pic: DATA.pic,
+      };
+    }
     setOrderState({ ...orderRef });
   };
 
@@ -38,6 +46,7 @@ const FlatlistItem = ({
               router.navigate({
                 pathname: "/foodItem",
                 params: {
+                  itemPrice: DATA?.price,
                   pic: DATA?.pic,
                   title: DATA?.title,
                   id: DATA?.id,
@@ -65,7 +74,7 @@ const FlatlistItem = ({
               ]}
             >
               {extra ? (
-                <View style={{ paddingVertical: 5 }}>
+                <View style={tw`pt-2 pb-2`}>
                   <Text>Extra</Text>
                 </View>
               ) : (
@@ -73,50 +82,31 @@ const FlatlistItem = ({
                   name="plus"
                   size={15}
                   color="#fff"
-                  style={{ paddingVertical: 5 }}
+                  style={tw`pt-2 pb-2`}
                 />
               )}
             </Pressable>
           )}
         </Pressable>
-        <View style={{ backgroundColor: "#fff", padding: 5 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
+        <View style={tw`bg-white p-2`}>
+          <View style={tw`flex-row justify-between`}>
             <Text
               numberOfLines={1}
               ellipsizeMode="tail"
-              style={styles.dietaryPreview}
+              style={tw`font-black text-base w-8/12`}
             >
               {DATA?.title}
             </Text>
-            <Text style={{ textAlign: "right", fontSize: 12 }}>
-              {DATA?.price || 999}
-            </Text>
+            <Text style={tw`text-right text-base`}>{DATA?.price}</Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              flex: 1,
-            }}
-          >
+          <View style={tw`flex-row items-center flex-1`}>
             <FontAwesome
               name="clock-o"
               size={15}
               color="#999"
-              style={{ marginRight: 3 }}
+              style={tw`mr-1`}
             />
-            <Text
-              style={{
-                color: "#32cc34",
-                fontWeight: "600",
-                fontSize: 12,
-              }}
-            >
+            <Text style={tw`text-green-300 font-bold text-base`}>
               {DATA?.time || "0"}min(s)
             </Text>
           </View>
@@ -164,7 +154,6 @@ const styles = StyleSheet.create({
   images: {
     flex: 1,
   },
-  dietaryPreview: { maxWidth: "70%", fontSize: 13, fontWeight: "900" },
   incrementorBtn: {
     padding: 7,
     backgroundColor: "#ff036a",

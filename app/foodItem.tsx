@@ -27,6 +27,7 @@ import FieldsetLegend from "./components/FieldsetLegend";
 import FlatlistItem from "./components/FlatlistItem";
 import BackButton from "./components/BackButton";
 import Context from "./Context";
+import tw from "twrnc";
 
 const width = Dimensions.get("window").width;
 
@@ -40,19 +41,19 @@ export default function FoodItem() {
     {
       id: 1,
       title: "Ketchup",
-      price: "10",
+      price: 10,
       pic: require("@/assets/images/ketchup.jpg"),
     },
     {
       id: 2,
       title: "Mayonnaise",
-      price: "10",
+      price: 10,
       pic: require("@/assets/images/mayonnaise.png"),
     },
     {
       id: 3,
       title: "Hot Sauce",
-      price: "10",
+      price: 10,
       pic: require("@/assets/images/hotsauce.jpg"),
     },
   ];
@@ -63,7 +64,6 @@ export default function FoodItem() {
 
   //Handles Bounce Animation for when item is added to basket
   const bounceAnimation = () => {
-    console.log("Starting animation");
     animatedScale.setValue(0.3);
     Animated.spring(animatedScale, {
       toValue: 1,
@@ -74,7 +74,7 @@ export default function FoodItem() {
   };
   const params = useLocalSearchParams();
   const navigation = useNavigation();
-  const { title, pic, subNote }: UnknownOutputParams = params;
+  const { title, pic, subNote, itemPrice }: UnknownOutputParams = params;
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Back to Room Service Menu",
@@ -110,12 +110,7 @@ export default function FoodItem() {
       <View style={styles.imageHolder}>
         <Image resizeMode="contain" source={pic} style={styles.images} />
       </View>
-      <ScrollView
-        style={{
-          margin: 10,
-          marginBottom: 50,
-        }}
-      >
+      <ScrollView style={tw`m-5 mb-25`}>
         <View
           style={{
             flexDirection: "row",
@@ -132,16 +127,14 @@ export default function FoodItem() {
             />
             <Text style={styles.title}>{title}</Text>
           </View>
-          <Text>999</Text>
+          <Text style={tw`font-bold text-lg text-black`}>{itemPrice}</Text>
         </View>
         <FieldsetLegend
           legend="Dietary Information/ Ingredients"
           innerText={`${subNote}` || "Some Dietary info goes here"}
         />
-        <View style={{ marginTop: 15 }}>
-          <Text style={{ fontSize: 17, fontWeight: "600" }}>
-            Extras/Ekstralar
-          </Text>
+        <View style={tw`mt-7`}>
+          <Text style={tw`text-lg font-semibold`}>Extras/Ekstralar</Text>
           <FlatList
             horizontal
             data={DATA}

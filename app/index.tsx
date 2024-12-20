@@ -41,7 +41,6 @@ export default function HomeScreen() {
   const handleSearch = (userInput: string) => {
     Keyboard.dismiss();
     let tempObj = extractElements(userInput);
-    console.log(tempObj);
   };
 
   let timer: NodeJS.Timeout | null = null;
@@ -101,7 +100,7 @@ export default function HomeScreen() {
               sections={activeData}
               keyExtractor={(item, index) => `${item}` + index}
               renderItem={({ item }) => {
-                return <></>;
+                return <View></View>;
               }}
               renderSectionHeader={({ section }) => (
                 <View style={{ marginTop: 5 }}>
