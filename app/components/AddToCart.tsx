@@ -13,7 +13,7 @@ import BackButton from "./BackButton";
 import tailwind from "twrnc";
 const width = Dimensions.get("window").width;
 
-const AddToTray = ({ bounceAnimation }: { bounceAnimation: Function }) => {
+const AddToCart = ({ bounceAnimation }: { bounceAnimation: Function }) => {
   //retrieving items stored in context store
   const { activeItem, orderRef, setOrderState } = useContext(Context);
 
@@ -74,7 +74,7 @@ const AddToTray = ({ bounceAnimation }: { bounceAnimation: Function }) => {
   );
 };
 
-export default AddToTray;
+export default AddToCart;
 
 const styles = StyleSheet.create({
   wrapper: {

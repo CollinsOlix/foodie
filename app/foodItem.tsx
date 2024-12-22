@@ -22,7 +22,7 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import AddToTray from "./components/AddToTray";
+import AddToCart from "./components/AddToCart";
 import FieldsetLegend from "./components/FieldsetLegend";
 import FlatlistItem from "./components/FlatlistItem";
 import BackButton from "./components/BackButton";
@@ -101,29 +101,23 @@ export default function FoodItem() {
         </Pressable>
       ),
     });
-  }, []);
-  useLayoutEffect(() => {
     animatedScale.setValue(1);
   }, []);
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.imageHolder}>
         <Image resizeMode="contain" source={pic} style={styles.images} />
       </View>
+
       <ScrollView style={tw`m-5 mb-25`}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            alignSelf: "auto",
-          }}
-        >
+        <View style={tw`flex-row items-center self-auto`}>
           <View style={styles.titleHolder}>
             <FontAwesome
               name="heart"
               size={20}
               color="#06D001"
-              style={{ marginRight: 5 }}
+              style={tw`mr-4`}
             />
             <Text style={styles.title}>{title}</Text>
           </View>
@@ -146,7 +140,7 @@ export default function FoodItem() {
           />
         </View>
       </ScrollView>
-      <AddToTray bounceAnimation={bounceAnimation} />
+      <AddToCart bounceAnimation={bounceAnimation} />
     </SafeAreaView>
   );
 }

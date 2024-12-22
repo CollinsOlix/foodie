@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Context from "../Context";
@@ -13,7 +13,7 @@ const FlatlistItem = ({
   DATA: MenuItem;
   pressable: boolean;
 }) => {
-  const { activeItem, setActiveItem, orderRef, setOrderState } =
+  const { activeItem, setActiveItem, orderRef, orderState, setOrderState } =
     useContext(Context);
 
   //functions used in this component
@@ -26,8 +26,8 @@ const FlatlistItem = ({
         title: DATA.title,
         pic: DATA.pic,
       };
+      orderRef[DATA.title].quantity > 0 && setOrderState({ ...orderRef });
     }
-    setOrderState({ ...orderRef });
   };
 
   const toggleExtra = () => {

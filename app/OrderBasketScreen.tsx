@@ -42,10 +42,12 @@ const OrderBasketScreen = () => {
   // "quantity": 0, "title": "Breakfast Plate"},
   //  "id": "Breakfast Plate"}]
   function convertToArray(obj: { [key: string]: any }) {
-    return Object.entries(obj).map(([key, value]) => ({
-      id: key,
-      details: value,
-    }));
+    return Object.entries(obj)
+      .filter(([key, value]) => value.quantity > 0) // Filter out items with quantity <= 0
+      .map(([key, value]) => ({
+        id: key,
+        details: value,
+      }));
   }
 
   //The converted array from the above function is stored here
