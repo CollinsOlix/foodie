@@ -8,7 +8,7 @@ const Context = createContext<{
   setActiveItem: React.Dispatch<React.SetStateAction<string>>;
   orderState: { [key: string]: any };
   setOrderState: React.Dispatch<React.SetStateAction<object>>;
-  lang?: string;
+  lang: string;
   setLang: React.Dispatch<React.SetStateAction<Language>>;
 }>({
   activeData: [],

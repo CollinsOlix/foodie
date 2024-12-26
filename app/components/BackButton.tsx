@@ -8,14 +8,7 @@ const BackButton = () => {
   const navigation = useNavigation();
   const { orderRef, orderState, activeItem, setOrderState } =
     useContext(Context);
-  useLayoutEffect(() => {
-    console.log("BacButton orderRef: ", orderRef);
-  }, []);
-  useEffect(() => {
-    console.log("BacButton act: ", activeItem);
-    console.log("BacButton obj<act>: ", orderState?.[activeItem]);
-    console.log("BacButton: ", orderState?.[activeItem].quantity);
-  }, []);
+
   return (
     <Pressable
       onPress={() => {

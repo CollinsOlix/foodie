@@ -26,4 +26,18 @@ type ItemDetailsType = {
   pic: any;
 };
 
-export { MenuData, MenuItem, MenuSection, Language, ItemDetailsType };
+type OrderItemType = {
+  id: string;
+  details: ItemDetailsType;
+};
+type DataStateType = [OrderItemType[], number] | [];
+
+export {
+  MenuData,
+  MenuItem,
+  MenuSection,
+  Language,
+  ItemDetailsType,
+  OrderItemType,
+  DataStateType,
+};

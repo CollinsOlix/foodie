@@ -8,10 +8,12 @@ import {
   Pressable,
   ScrollView,
   Animated,
+  ImageSourcePropType,
 } from "react-native";
 import React, { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import {
   router,
+  Stack,
   UnknownOutputParams,
   useLocalSearchParams,
   useNavigation,
@@ -28,6 +30,7 @@ import FlatlistItem from "./components/FlatlistItem";
 import BackButton from "./components/BackButton";
 import Context from "./Context";
 import tw from "twrnc";
+import { navigate } from "expo-router/build/global-state/routing";
 
 const width = Dimensions.get("window").width;
 
@@ -68,7 +71,7 @@ export default function FoodItem() {
     Animated.spring(animatedScale, {
       toValue: 1,
       bounciness: 24,
-      speed: 20,
+      speed: 5,
       useNativeDriver: true,
     }).start();
   };
@@ -88,7 +91,7 @@ export default function FoodItem() {
               { transform: [{ scale: animatedScale }] },
             ]}
           >
-            {orderState ? (
+            {orderState?.[`${title}`]?.quantity > 0 ? (
               <MaterialIcons name="room-service" size={27} color="white" />
             ) : (
               <MaterialCommunityIcons
@@ -107,7 +110,11 @@ export default function FoodItem() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.imageHolder}>
-        <Image resizeMode="contain" source={pic} style={styles.images} />
+        <Image
+          resizeMode="contain"
+          source={pic as ImageSourcePropType}
+          style={styles.images}
+        />
       </View>
 
       <ScrollView style={tw`m-5 mb-25`}>

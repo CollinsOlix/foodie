@@ -22,11 +22,11 @@ const FlatlistItem = ({
     if (orderRef && DATA.title) {
       orderRef[DATA.title] = {
         price: DATA.price,
-        quantity: orderRef[DATA.title] ? orderRef[DATA.title].quantity : 0,
+        quantity: orderRef?.[DATA.title] ? orderRef?.[DATA.title]?.quantity : 0,
         title: DATA.title,
         pic: DATA.pic,
       };
-      orderRef[DATA.title].quantity > 0 && setOrderState({ ...orderRef });
+      setOrderState({ ...orderRef });
     }
   };
 

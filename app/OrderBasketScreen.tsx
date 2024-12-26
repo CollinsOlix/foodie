@@ -20,7 +20,7 @@ import Context from "./Context";
 import { SafeAreaView } from "react-native";
 import tw from "twrnc";
 import OrderItem from "./components/OrderItem";
-import { ItemDetailsType } from "./components/types";
+import { DataStateType, ItemDetailsType } from "./components/types";
 
 const OrderBasketScreen = () => {
   //Boolean variable to conditionally render
@@ -41,17 +41,26 @@ const OrderBasketScreen = () => {
   //[{"details": {"pic": 25, "price": "900",
   // "quantity": 0, "title": "Breakfast Plate"},
   //  "id": "Breakfast Plate"}]
-  function convertToArray(obj: { [key: string]: any }) {
-    return Object.entries(obj)
-      .filter(([key, value]) => value.quantity > 0) // Filter out items with quantity <= 0
-      .map(([key, value]) => ({
-        id: key,
-        details: value,
-      }));
+  function convertToArray(obj: { [key: string]: any }): DataStateType {
+    if (obj) {
+      let total = 0;
+      return [
+        Object.entries(obj)
+          .filter(([key, value]) => value.quantity > 0) // Filter out items with quantity <= 0
+          .map(([key, value]) => {
+            if (value) total += value.price * value.quantity;
+            return {
+              id: key,
+              details: value,
+            };
+          }),
+        total,
+      ];
+    } else return [];
   }
 
   //The converted array from the above function is stored here
-  const [data, setData] = useState(convertToArray(orderState));
+  const [data, setData] = useState<DataStateType>(convertToArray(orderState));
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -66,28 +75,31 @@ const OrderBasketScreen = () => {
       headerLeft: () => <BackButton />,
     });
   }, []);
+  console.log(typeof data[0]);
 
   return (
     <SafeAreaView style={tw`flex-1 bg-white p-1 relative`}>
       <ScrollView style={tw`mb-1`}>
-        {data.map(
-          (
-            item: {
-              details: ItemDetailsType;
-              id: string;
-            },
-            index: number
-          ) => (
-            <Pressable
-              key={index}
-              onPress={() => {
-                setActive((active) => !active);
-              }}
-            >
-              <OrderItem item={item} />
-            </Pressable>
-          )
-        )}
+        {data &&
+          data[0] &&
+          data[0].map(
+            (
+              item: {
+                details: ItemDetailsType;
+                id: string;
+              },
+              index: number
+            ) => (
+              <Pressable
+                key={index}
+                onPress={() => {
+                  setActive((active) => !active);
+                }}
+              >
+                <OrderItem item={item} />
+              </Pressable>
+            )
+          )}
       </ScrollView>
       {active && (
         <View
@@ -96,15 +108,23 @@ const OrderBasketScreen = () => {
           <Text>Lorem Ipsum</Text>
         </View>
       )}
+
       <Pressable
         onPress={() => {
           router.navigate({ pathname: "/ConfirmOrderScreen" });
         }}
-        style={tw`p-4 rounded-lg bg-blue-300 relative z-9 shadow-lg bg-rose-500`}
+        style={tw`items-center flex-row rounded-lg bg-blue-300 relative z-9 shadow-lg bg-rose-500`}
       >
-        <Text style={tw`text-white text-lg text-center font-bold`}>
-          Confirm Order
-        </Text>
+        <View style={tw`w-5/6 border-r-2 border-gray-200 p-4`}>
+          <Text style={tw`text-white text-center text-xl font-bold`}>
+            Confirm Order
+          </Text>
+        </View>
+        <View style={tw`w-1/6`}>
+          <Text style={tw`text-center text-white font-bold text-xl`}>
+            {data[1]}
+          </Text>
+        </View>
       </Pressable>
     </SafeAreaView>
   );

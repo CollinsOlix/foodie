@@ -22,24 +22,32 @@ import { MenuItem } from "./components/types";
 
 export default function HomeScreen() {
   const { lang, setLang, activeData } = useContext(Context);
+
   function extractElements(userInput: string) {
     let extractedElements: MenuItem[] = [];
 
-    Object.keys(DATA).forEach(() => {
-      activeData.forEach((category) => {
-        category.data.forEach((item) => {
-          if (item.title)
-            if (item.title.toLowerCase().includes(userInput.toLowerCase())) {
-              extractedElements.push(item);
-            }
-        });
-      });
-    });
+    // Object.keys(DATA?.[lang]).forEach((w) => {
+    //   console.log(w, Object.keys(DATA[lang]));
+    // activeData.forEach((category) => {
+    //   category.data.forEach((item) => {
+    //     if (item.title)
+    //       if (item.title.toLowerCase().includes(userInput.toLowerCase())) {
+    //         extractedElements.push(item);
+    //       }
+    //   });
+    // });
+    // });
+
+    DATA[lang].forEach((l) =>
+      l.data.forEach((i) => {
+        console.log(i, "\n", i.title.toLowerCase().includes(userInput));
+      })
+    );
 
     return extractedElements;
   }
   const handleSearch = (userInput: string) => {
-    Keyboard.dismiss();
+    // Keyboard.dismiss();
     let tempObj = extractElements(userInput);
   };
 

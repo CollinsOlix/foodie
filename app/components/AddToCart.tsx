@@ -15,7 +15,8 @@ const width = Dimensions.get("window").width;
 
 const AddToCart = ({ bounceAnimation }: { bounceAnimation: Function }) => {
   //retrieving items stored in context store
-  const { activeItem, orderRef, setOrderState } = useContext(Context);
+  const { activeItem, orderRef, setOrderState, orderState } =
+    useContext(Context);
 
   //Counter stateful variable for incrementing
   //or decrementing item quantity
@@ -35,7 +36,7 @@ const AddToCart = ({ bounceAnimation }: { bounceAnimation: Function }) => {
   //.
   useEffect(() => {
     orderRef[`${activeItem}`].quantity = counter;
-    setOrderState(orderRef);
+    setOrderState({ ...orderRef });
   }, [counter]);
 
   //functions used in this component
