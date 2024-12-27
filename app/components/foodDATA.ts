@@ -20,7 +20,15 @@ const DATA: MenuData = {
           time: "~30",
         },
         {
-          title: "Les Breakfast",
+          title: "Les Breakfast I",
+          time: "~30",
+          subNote:
+            "For 1\nJuice of your Choice: Orange, Grapefruit, Apple, Carrot. Freshly Brewed Turkish Tea. Assorted Bakery Basket Turkish Sesame Bagel, Pastry and Assorted Bread. Traditional Turkish Feta Cheese, Goat Cheese, Aged Cheddar, Jams, grilled sausage, grilled halloumi, Marinated Olives, Tomato, Cucumber, Honey with Cream, Dry Apricot, Cheese pastry and Butter. Choose your egg (menemen, sunny side up egg, omelette, boiled egg).",
+          price: 900,
+          pic: require("@/assets/images/placeholder.jpg"),
+        },
+        {
+          title: "Les Breakfast II",
           time: "~30",
           subNote:
             "For 2\nJuice of your Choice: Orange, Grapefruit, Apple, Carrot. Freshly Brewed Turkish Tea. Assorted Bakery Basket Turkish Sesame Bagel, Pastry and Assorted Bread. Traditional Turkish Feta Cheese, Goat Cheese, Aged Cheddar, Jams, grilled sausage, grilled halloumi, Marinated Olives, Tomato, Cucumber, Honey with Cream, Dry Apricot, Cheese pastry and Butter. Choose your egg (menemen, sunny side up egg, omelette, boiled egg).",

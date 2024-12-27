@@ -17,38 +17,65 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import FlatlistItem from "./components/FlatlistItem";
 import Context from "./Context";
-import { useContext } from "react";
-import { MenuItem } from "./components/types";
+import { useContext, useState } from "react";
+import { MenuItem, MenuSection } from "./components/types";
+import tw from "twrnc";
 
 export default function HomeScreen() {
+  const [inputText, setInputText] = useState("");
   const { lang, setLang, activeData } = useContext(Context);
+  const [searchedData, setSearchedData] = useState<MenuSection[] | null>(null);
+
+  const titleExistsInExtractedElements = (
+    extractedElements: Array<{ [key: string]: any }>,
+    title: string
+  ) => {
+    let i = 0;
+    while (i < extractedElements.length) {
+      if (extractedElements[i].title.includes(title)) {
+        return i;
+      }
+      i++;
+    }
+    return false;
+  };
 
   function extractElements(userInput: string) {
-    let extractedElements: MenuItem[] = [];
+    let extractedElements: MenuSection[] = [];
 
-    // Object.keys(DATA?.[lang]).forEach((w) => {
-    //   console.log(w, Object.keys(DATA[lang]));
-    // activeData.forEach((category) => {
-    //   category.data.forEach((item) => {
-    //     if (item.title)
-    //       if (item.title.toLowerCase().includes(userInput.toLowerCase())) {
-    //         extractedElements.push(item);
-    //       }
-    //   });
-    // });
-    // });
-
-    DATA[lang].forEach((l) =>
-      l.data.forEach((i) => {
-        console.log(i, "\n", i.title.toLowerCase().includes(userInput));
-      })
-    );
-
+    DATA[lang].forEach((l) => {
+      // console.log("Extrac", userInput);
+      l.data.forEach((i: MenuItem, index) => {
+        if (
+          i &&
+          i.title &&
+          i.title.toLowerCase().includes(userInput.toLowerCase())
+        ) {
+          if (
+            !extractedElements.find((e) => {
+              return e.title === l.title;
+            })
+          ) {
+            extractedElements.push({ title: l.title, data: [l.data[index]] });
+          } else {
+            let itemExists = titleExistsInExtractedElements(
+              extractedElements,
+              l.title
+            );
+            if (typeof itemExists === "number") {
+              extractedElements[itemExists].data.push(l.data[index]);
+              extractedElements.forEach((e) => {});
+            }
+          }
+        }
+      });
+    });
     return extractedElements;
   }
   const handleSearch = (userInput: string) => {
     // Keyboard.dismiss();
-    let tempObj = extractElements(userInput);
+    let tempObj: MenuSection[] = extractElements(userInput);
+    setSearchedData(tempObj);
   };
 
   let timer: NodeJS.Timeout | null = null;
@@ -92,6 +119,8 @@ export default function HomeScreen() {
               numberOfLines={1}
               maxLength={35}
               onChangeText={(e) => {
+                e == "" && setSearchedData(null);
+                setInputText(e);
                 if (timer) {
                   clearTimeout(timer);
                 } else {
@@ -103,27 +132,41 @@ export default function HomeScreen() {
             />
           </View>
           <View style={[styles.sectionListWrapper]}>
-            <SectionList
-              showsVerticalScrollIndicator={false}
-              sections={activeData}
-              keyExtractor={(item, index) => `${item}` + index}
-              renderItem={({ item }) => {
-                return <View></View>;
-              }}
-              renderSectionHeader={({ section }) => (
-                <View style={{ marginTop: 5 }}>
-                  <Text style={[styles.itemHeaders]}>{section.title}</Text>
-                  <FlatList
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={section.data}
-                    renderItem={({ item }) => (
-                      <FlatlistItem DATA={item} pressable={true} />
-                    )}
-                  />
-                </View>
-              )}
-            />
+            {searchedData && searchedData.length < 1 ? (
+              <View style={tw`justify-center items-center flex-1`}>
+                <Text style={tw`text-xl text-center`}>
+                  No results found for
+                </Text>
+                <Text style={tw`text-xl text-center`}>{inputText}</Text>
+              </View>
+            ) : (
+              <SectionList
+                showsVerticalScrollIndicator={false}
+                sections={searchedData ? searchedData : activeData}
+                keyExtractor={(item, index) => `${item}` + index}
+                renderItem={({ item }) => {
+                  console.log("Item: ", item);
+                  return <View></View>;
+                }}
+                renderSectionHeader={({ section }) => {
+                  console.log(typeof searchedData);
+                  return (
+                    <View style={{ marginTop: 5 }}>
+                      <Text style={[styles.itemHeaders]}>{section.title}</Text>
+                      <FlatList
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={section.data}
+                        renderItem={({ item }) => {
+                          // console.log(item);
+                          return <FlatlistItem DATA={item} pressable={true} />;
+                        }}
+                      />
+                    </View>
+                  );
+                }}
+              />
+            )}
           </View>
         </SafeAreaView>
       </TouchableWithoutFeedback>

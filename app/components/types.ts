@@ -15,8 +15,7 @@ interface MenuSection {
 }
 
 interface MenuData {
-  en: MenuSection[];
-  tr: MenuSection[];
+  [key: string]: MenuSection[];
 }
 
 type ItemDetailsType = {
