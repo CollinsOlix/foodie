@@ -44,7 +44,6 @@ export default function HomeScreen() {
     let extractedElements: MenuSection[] = [];
 
     DATA[lang].forEach((l) => {
-      // console.log("Extrac", userInput);
       l.data.forEach((i: MenuItem, index) => {
         if (
           i &&
@@ -145,20 +144,17 @@ export default function HomeScreen() {
                 sections={searchedData ? searchedData : activeData}
                 keyExtractor={(item, index) => `${item}` + index}
                 renderItem={({ item }) => {
-                  console.log("Item: ", item);
                   return <View></View>;
                 }}
                 renderSectionHeader={({ section }) => {
-                  console.log(typeof searchedData);
                   return (
-                    <View style={{ marginTop: 5 }}>
+                    <View style={tw`mt-5`}>
                       <Text style={[styles.itemHeaders]}>{section.title}</Text>
                       <FlatList
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         data={section.data}
                         renderItem={({ item }) => {
-                          // console.log(item);
                           return <FlatlistItem DATA={item} pressable={true} />;
                         }}
                       />

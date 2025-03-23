@@ -75,7 +75,6 @@ const OrderBasketScreen = () => {
       headerLeft: () => <BackButton />,
     });
   }, []);
-  console.log(typeof data[0]);
 
   return (
     <SafeAreaView style={tw`flex-1 bg-white p-1 relative`}>
